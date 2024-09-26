@@ -5,15 +5,22 @@ import {
   varchar,
   integer,
   pgEnum,
+  index,
 } from "drizzle-orm/pg-core";
 
 export const UserRole = pgEnum("user_role", ["ADMIN", "USER"]);
 
-export const UserTable = pgTable("users", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  name: varchar("name", { length: 255 }).notNull(),
-  age: integer("age").notNull(),
-  email: varchar("email", { length: 255 }).notNull().unique(),
-  createdAt: timestamp("created_at").notNull(),
-  role: UserRole("user_role").default("USER").notNull(),
-});
+export const UserTable = pgTable(
+  "users",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    name: varchar("name", { length: 255 }).notNull(),
+    age: integer("age").notNull(),
+    email: varchar("email", { length: 255 }).notNull().unique(),
+    createdAt: timestamp("created_at").notNull(),
+    role: UserRole("user_role").default("USER").notNull(),
+  },
+  (table) => ({
+    emailIndex: index("email_index").on(table.email),
+  })
+);
