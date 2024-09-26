@@ -6,7 +6,7 @@ async function main() {
     await db.insert(UserTable).values({
       name: "John Doe",
       email: "john.doe@example.com",
-      createdAt: new Date(),
+      age: 25,
     });
   } catch (error: unknown) {
     if (error instanceof Error) {
