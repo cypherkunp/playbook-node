@@ -1,3 +1,4 @@
+import { relations } from "drizzle-orm";
 import {
   pgTable,
   uuid,
@@ -83,5 +84,48 @@ export const PostCategoryTable = pgTable(
   (table) => ({
     // composite primary key setup
     pk: primaryKey({ columns: [table.postId, table.categoryId] }),
+  })
+);
+
+// RELATIONSHIP MAPPING
+
+export const UserTableRelations = relations(UserTable, ({ one, many }) => ({
+  preferences: one(UserPreferencesTable),
+  posts: many(PostTable),
+}));
+
+export const UserPreferencesTableRelations = relations(
+  UserPreferencesTable,
+  ({ one }) => ({
+    user: one(UserTable, {
+      fields: [UserPreferencesTable.userId],
+      references: [UserTable.id],
+    }),
+  })
+);
+
+export const PostTableRelations = relations(PostTable, ({ one, many }) => ({
+  author: one(UserTable, {
+    fields: [PostTable.authorId],
+    references: [UserTable.id],
+  }),
+  postCategory: many(CategoryTable),
+}));
+
+export const CategoryTableRelations = relations(CategoryTable, ({ many }) => ({
+  postCategory: many(PostCategoryTable),
+}));
+
+export const PostCategoryTableRelations = relations(
+  PostCategoryTable,
+  ({ one }) => ({
+    post: one(PostTable, {
+      fields: [PostCategoryTable.postId],
+      references: [PostTable.id],
+    }),
+    category: one(CategoryTable, {
+      fields: [PostCategoryTable.categoryId],
+      references: [CategoryTable.id],
+    }),
   })
 );
