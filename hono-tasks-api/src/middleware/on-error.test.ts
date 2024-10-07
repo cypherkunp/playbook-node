@@ -1,6 +1,8 @@
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 
+import env from "@/env";
+
 import onError from "./on-error";
 
 describe("onError", () => {
@@ -27,7 +29,7 @@ describe("onError", () => {
     const { Context } = await import(path.join(process.cwd(), "node_modules/hono/dist/context.js"));
     const req = new Request("http://localhost/");
     const context = new Context(req);
-    process.env.NODE_ENV = "production";
+    env.NODE_ENV = "production";
     const response = await onError(
       new Error("Test error"),
       context,
