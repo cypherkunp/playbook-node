@@ -1,6 +1,6 @@
 import type { MiddlewareHandler } from "hono";
 
-export default function Emoji(emoji: string): MiddlewareHandler {
+export default function favicon(emoji: string): MiddlewareHandler {
   return async (c, next) => {
     if (c.req.path === "/favicon.ico") {
       c.header("Content-Type", "image/svg+xml");

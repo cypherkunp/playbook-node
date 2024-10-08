@@ -2,22 +2,22 @@ import type { PinoLogger } from "hono-pino";
 
 import { OpenAPIHono } from "@hono/zod-openapi";
 
-import Emoji from "@/middleware/emoji";
+import favicon from "@/middleware/favicon";
 import { pinoLogger } from "@/middleware/logger";
 import onError from "@/middleware/on-error";
 import notFound from "@/middleware/on-not-found";
 
-interface AppBindings {
-  Variables: {
-    logger: PinoLogger;
-  };
+import type { AppBindings } from "./types";
+
+export function createRouter() {
+  return new OpenAPIHono<AppBindings>({ strict: false });
 }
 
 export default function createApp() {
-  const app = new OpenAPIHono<AppBindings>();
+  const app = createRouter();
 
   app.use(pinoLogger());
-  app.use(Emoji("📒"));
+  app.use(favicon("📒"));
 
   app.notFound(notFound);
   app.onError(onError);

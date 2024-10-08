@@ -1,10 +1,20 @@
-import createApp from "@/libs/create-app";
+import createApp from "@/libs/configure-app";
+import configureOpenAPI from "@/libs/configure-open-api";
+import indexRoute from "@/routes/index.route";
 
 const app = createApp();
+const routes = [
+  indexRoute,
+];
 
-app.get("/", (c) => {
-  c.var.logger.info("Hello Hono!");
-  return c.text("Hello Hono!");
+configureOpenAPI(app);
+
+app.get("/health", (c) => {
+  return c.text("OK");
+});
+
+routes.forEach((route) => {
+  app.route("/", route);
 });
 
 export default app;
