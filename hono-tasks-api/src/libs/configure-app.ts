@@ -1,5 +1,3 @@
-import type { PinoLogger } from "hono-pino";
-
 import { OpenAPIHono } from "@hono/zod-openapi";
 
 import favicon from "@/middleware/favicon";

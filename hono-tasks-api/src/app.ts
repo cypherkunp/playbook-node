@@ -1,10 +1,12 @@
 import createApp from "@/libs/configure-app";
 import configureOpenAPI from "@/libs/configure-open-api";
-import indexRoute from "@/routes/index.route";
+import indexRoute from "@/routes/root/index.route";
+import tasksRoute from "@/routes/tasks/tasks.route";
 
 const app = createApp();
 const routes = [
   indexRoute,
+  tasksRoute,
 ];
 
 configureOpenAPI(app);
